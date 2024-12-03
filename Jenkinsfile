@@ -26,36 +26,36 @@ spec:
     
 
     stages {
-        // stage('Checkout') {
-        //     steps {
-        //         checkout scm
-        //     }
-        // }
-
-
-        stage('Create ConfigMap') {
+        stage('Checkout') {
             steps {
-                container('kubectl') {
-                    checkout scm
-                    sh 'kubectl get nodes'
-                    // sh '''
-                    // kubectl create configmap demo-dashboard \
-                    // --from-file=k8s-cluster-dashboard.json \
-                    // -n demo-metrics \
-                    // --dry-run=client -o yaml | kubectl apply -f -
-                    // '''
-                }
+                checkout scm
             }
         }
 
-        // stage('Install Grafana') {
+
+        // stage('Create ConfigMap') {
         //     steps {
-        //         container('helm') {
-        //                 sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
-        //                 sh 'helm repo update'
+        //         container('kubectl') {
+        //             // checkout scm
+        //             sh 'kubectl get nodes'
+        //             // sh '''
+        //             // kubectl create configmap demo-dashboard \
+        //             // --from-file=k8s-cluster-dashboard.json \
+        //             // -n demo-metrics \
+        //             // --dry-run=client -o yaml | kubectl apply -f -
+        //             // '''
         //         }
         //     }
         // }
+
+        stage('Install Grafana') {
+            steps {
+                container('helm') {
+                        sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
+                        sh 'helm repo update'
+                }
+            }
+        }
     }
 
     post {
