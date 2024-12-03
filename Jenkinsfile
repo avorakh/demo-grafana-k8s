@@ -56,6 +56,19 @@ spec:
                 }
             }
         }
+
+        stage('Create ConfigMap') {
+            steps {
+                container('kubectl') {
+                    sh '''
+                        kubectl create configmap demo-dashboard \
+                        --from-file=k8s-cluster-dashboard.json \
+                        -n demo-metrics \
+                        --dry-run=client -o yaml | kubectl apply -f -
+                    '''
+                }
+            }
+        }
     }
 
     post {
