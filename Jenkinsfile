@@ -11,10 +11,6 @@ spec:
     image: alpine/helm:3.11.1
     command: ['cat']
     tty: true
-  - name: kubectl
-    image: bitnami/kubectl:1.31
-    command: ['cat']
-    tty: true
 """
         }
     }
@@ -33,40 +29,12 @@ spec:
         }
 
 
-        // stage('Create ConfigMap') {
-        //     steps {
-        //         container('kubectl') {
-        //             // checkout scm
-        //             sh 'kubectl get nodes'
-        //             // sh '''
-        //             // kubectl create configmap demo-dashboard \
-        //             // --from-file=k8s-cluster-dashboard.json \
-        //             // -n demo-metrics \
-        //             // --dry-run=client -o yaml | kubectl apply -f -
-        //             // '''
-        //         }
-        //     }
-        // }
-
         stage('Install Grafana') {
             steps {
                 container('helm') {
                         sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
                         sh 'helm repo update'
-                }
-            }
-        }
-
-        stage('Create ConfigMap') {
-            steps {
-                container('kubectl') {
-                     sh 'kubectl get nodes'
-                    // sh '''
-                    //     kubectl create configmap demo-dashboard \
-                    //     --from-file=k8s-cluster-dashboard.json \
-                    //     -n demo-metrics \
-                    //     --dry-run=client -o yaml | kubectl apply -f -
-                    // '''
+                        sh 'helm upgrade --install grafana bitnami/grafana -n demo-metrics -f values.yaml --create-namespace'
                 }
             }
         }
