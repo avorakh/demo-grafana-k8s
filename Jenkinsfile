@@ -26,16 +26,17 @@ spec:
     
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
+        // stage('Checkout') {
+        //     steps {
+        //         checkout scm
+        //     }
+        // }
 
 
         stage('Create ConfigMap') {
             steps {
                 container('kubectl') {
+                    checkout scm
                     sh 'kubectl get nodes'
                     // sh '''
                     // kubectl create configmap demo-dashboard \
@@ -47,14 +48,14 @@ spec:
             }
         }
 
-        stage('Install Grafana') {
-            steps {
-                container('helm') {
-                        sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
-                        sh 'helm repo update'
-                }
-            }
-        }
+        // stage('Install Grafana') {
+        //     steps {
+        //         container('helm') {
+        //                 sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
+        //                 sh 'helm repo update'
+        //         }
+        //     }
+        // }
     }
 
     post {
