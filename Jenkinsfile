@@ -12,7 +12,7 @@ spec:
     command: ['cat']
     tty: true
   - name: kubectl
-    image: bitnami/kubectl:latest
+    image: bitnami/kubectl:1.31
     command: ['cat']
     tty: true
 """
@@ -60,12 +60,13 @@ spec:
         stage('Create ConfigMap') {
             steps {
                 container('kubectl') {
-                    sh '''
-                        kubectl create configmap demo-dashboard \
-                        --from-file=k8s-cluster-dashboard.json \
-                        -n demo-metrics \
-                        --dry-run=client -o yaml | kubectl apply -f -
-                    '''
+                     sh 'kubectl get nodes'
+                    // sh '''
+                    //     kubectl create configmap demo-dashboard \
+                    //     --from-file=k8s-cluster-dashboard.json \
+                    //     -n demo-metrics \
+                    //     --dry-run=client -o yaml | kubectl apply -f -
+                    // '''
                 }
             }
         }
