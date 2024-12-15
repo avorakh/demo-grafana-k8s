@@ -25,6 +25,7 @@
 
 **Create/Update the Secret for Admin Password**
 
+
    Check if the `grafana-admin-password` secret exists:
    ```bash
    kubectl get secret grafana-admin-password -n demo-metrics
@@ -37,6 +38,7 @@
      --from-literal=password='secure-password' \
      -n demo-metrics --dry-run=client -o yaml | kubectl apply -f -
    ```
+
 **Create Kubernetes Secrets for SMTP Credentials**
 
    Check if the `grafana-smtp-secret` secret exists:
