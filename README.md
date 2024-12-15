@@ -21,7 +21,10 @@
 ---
 ## Install Grafana
 
-0. **Create/Update the Secret for Admin Password**
+0. **Create/Update Kubernetes Secrets**
+
+**Create/Update the Secret for Admin Password**
+
 
    Check if the `grafana-admin-password` secret exists:
    ```bash
@@ -33,6 +36,23 @@
    ```bash
    kubectl create secret generic grafana-admin-password \
      --from-literal=password='secure-password' \
+     -n demo-metrics --dry-run=client -o yaml | kubectl apply -f -
+   ```
+
+**Create Kubernetes Secrets for SMTP Credentials**
+
+   Check if the `grafana-smtp-secret` secret exists:
+   ```bash
+   kubectl get secret grafana-smtp-secret -n demo-metrics
+   ```
+
+   Create/update the secret: 
+   > Replace `your-email@example.com` and `your-password` with your actual  email and password. Please use the https://www.mailersend.com/ as a mail service.
+
+   ```bash     
+   kubectl create secret generic grafana-smtp-secret \
+     --from-literal=smtp-user=your-email@example.com \
+     --from-literal=smtp-password=your-password \
      -n demo-metrics --dry-run=client -o yaml | kubectl apply -f -
    ```
 
